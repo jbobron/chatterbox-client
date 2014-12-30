@@ -1,14 +1,16 @@
 // YOUR CODE HERE:
 
+
   var app = {};
   var message = {
     'username': 'BryanJake',
     'text': 'we out here',
     'roomname': 'floor6'
   };
-
 $(document).ready(function(){
 
+
+  app.server = 'https://api.parse.com/1/classes/chatterbox';
   app.init = function(){
     //maybe call fetch, should initialize the data
 
@@ -17,7 +19,7 @@ $(document).ready(function(){
 
   app.send = function(message){
     $.ajax({
-      url: 'https://api.parse.com/1/classes/chatterbox',
+      url: app.server,
       type: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json',
@@ -34,12 +36,15 @@ $(document).ready(function(){
 
   app.fetch = function(){
     $.ajax({
-      url: 'https://api.parse.com/1/classes/chatterbox',
+      url: app.server,
       type: 'GET',
-      data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
       console.log('chatterbox: Message recieved');
+      //append data to id chats
+      console.log(data);
+      $("#chats").append(data.results[1].text);
+
       },
       error: function (data) {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -71,10 +76,7 @@ $(document).ready(function(){
 
   };
 
-  $(window).load(function(){
-
-    app.init();
-  });
-
+  // Make buttons work here
+  // $('.addRoomButton').submit
 });
 // $.get('https://api.parse.com/1/classes/chatterbox',)
