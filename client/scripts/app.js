@@ -5,7 +5,8 @@
   var message = {
     'username': 'BryanJake',
     'text': 'hey devin!!!',
-    'roomname': 'floor6'
+    'roomname': 'floor6',
+    'friends': []
   };
 $(document).ready(function(){
 
@@ -55,7 +56,9 @@ $(document).ready(function(){
   };
 
   app.addMessage = function(message){
-    $('#chats').append('<p>' + message + '</p>');
+    var username = getUsername();
+    //username = '<a href="#">' + username + ;
+    $('#chats').append('<p>' + username + ": " + message + '</p>');
     this.send(message);
   };
 
@@ -81,14 +84,27 @@ $(document).ready(function(){
   //     }
   //   }
   // };
-
+  var getUsername = function(){
+    var myURL = document.URL;
+    var userName = myURL.substring(myURL.lastIndexOf("=")+1);
+    userName = userName.slice(0,-1);
+    console.log(userName);
+    return userName;
+  }
 
   // Make buttons work here
   var displayMessages = function(data){
+
     for(var i = 0; i<data.results.length; i++){
-      var messageUser = '<a href="#">' + data.results[i].username + '</a>';  //through an a tag around this
-      var messageText = data.results[i].text;
-      $('#chats').append('<p>' + messageUser + ': ' + messageText + '</p>');
+      var username = data.results[i].username;
+
+      console.log(username);
+      //$("a").addClass(username);
+      var newMessage = '<p class=' + username + '>' + "<a href=#>" + username + "</a>" + ": " + data.results[i].text + '</p>'
+
+      // var messageUser = '<a href="#">' + username + '</a>';  //through an a tag around this
+      // var messageText = data.results[i].text;
+      $('#chats').append(newMessage);
   };
     };
   $('.clearButton').on("click", function(){
@@ -99,6 +115,18 @@ $(document).ready(function(){
 
     app.addRoom($('input.roomInput').val());
   });
+
+  $('.sendButton').on('click', function(event){
+    event.preventDefault();
+    app.addMessage($('input.sendInput').val());
+  });
+
+  $('.sendButton').on('click', function(event){
+    event.preventDefault();
+    app.addMessage($('input.sendInput').val());
+  });
+
+
   // $('.clearButton').on("click", function(){
   //   app.clearMessages();
   // });
