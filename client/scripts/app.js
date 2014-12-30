@@ -72,6 +72,17 @@ $(document).ready(function(){
 
   };
 
+  // var filterByRoom = function(data, room){
+  //   for(var i = 0; i<data.results.length; i++){
+  //     if(data.results[i].roomname === room){
+  //       var messageUser = '<a href="#">' + data.results[i].username + '</a>';  //through an a tag around this
+  //       var messageText = data.results[i].text;
+  //       $('#chats').append('<p>' + messageUser + ': ' + messageText + '</p>');
+  //     }
+  //   }
+  // };
+
+
   // Make buttons work here
   var displayMessages = function(data){
     for(var i = 0; i<data.results.length; i++){
