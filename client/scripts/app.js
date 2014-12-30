@@ -4,18 +4,13 @@
   var app = {};
   var message = {
     'username': 'BryanJake',
-    'text': 'we out here',
+    'text': 'hey devin!!!',
     'roomname': 'floor6'
   };
 $(document).ready(function(){
 
 
   app.server = 'https://api.parse.com/1/classes/chatterbox';
-  app.init = function(){
-    //maybe call fetch, should initialize the data
-
-    setInterval(app.fetch, 1000);
-  };
 
   app.send = function(message){
     $.ajax({
@@ -30,7 +25,6 @@ $(document).ready(function(){
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
         console.error('chatterbox: Failed to send message');
       }
-
     });
   };
 
@@ -41,10 +35,7 @@ $(document).ready(function(){
       contentType: 'application/json',
       success: function (data) {
       console.log('chatterbox: Message recieved');
-      //append data to id chats
-      console.log(data);
-      $("#chats").append(data.results[1].text);
-
+      displayMessages(data);
       },
       error: function (data) {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -52,6 +43,11 @@ $(document).ready(function(){
       }
     });
   };
+  app.init = function(){
+    //maybe call fetch, should initialize the data
+    setInterval(app.fetch, 1000);
+  };
+  app.init();
 
   app.clearMessages = function(){
     // var elements = document.getElementsByClassName('#chats');
@@ -65,7 +61,7 @@ $(document).ready(function(){
 
   app.addRoom = function(room){
     //iterate through messages and check if room already exists
-    $('#roomSelect').append('<p>' + room + '</p>');
+    $('#roomSelect').append('<a href="#">' + room + '</a>');
   };
 
   app.addFriend = function(friend){
@@ -77,6 +73,30 @@ $(document).ready(function(){
   };
 
   // Make buttons work here
-  // $('.addRoomButton').submit
+  var displayMessages = function(data){
+    for(var i = 0; i<data.results.length; i++){
+      var messageUser = '<a href="#">' + data.results[i].username + '</a>';  //through an a tag around this
+      var messageText = data.results[i].text;
+      $('#chats').append('<p>' + messageUser + ': ' + messageText + '</p>');
+  };
+    };
+  $('.clearButton').on("click", function(){
+    app.clearMessages();
+  });
+  $('.addRoomButton').on('click', function(event){
+    event.preventDefault();
+
+    app.addRoom($('input.roomInput').val());
+  });
+  // $('.clearButton').on("click", function(){
+  //   app.clearMessages();
+  // });
 });
-// $.get('https://api.parse.com/1/classes/chatterbox',)
+
+
+
+
+
+
+
+
