@@ -44,11 +44,6 @@ $(document).ready(function(){
       }
     });
   };
-  app.init = function(){
-    //maybe call fetch, should initialize the data
-    setInterval(app.fetch, 1000);
-  };
-  app.init();
 
   app.clearMessages = function(){
     // var elements = document.getElementsByClassName('#chats');
@@ -88,17 +83,14 @@ $(document).ready(function(){
     var myURL = document.URL;
     var userName = myURL.substring(myURL.lastIndexOf("=")+1);
     userName = userName.slice(0,-1);
-    console.log(userName);
     return userName;
   }
 
   // Make buttons work here
   var displayMessages = function(data){
-
     for(var i = 0; i<data.results.length; i++){
       var username = data.results[i].username;
 
-      console.log(username);
       //$("a").addClass(username);
       var newMessage = '<p class=' + username + '>' + "<a href=#>" + username + "</a>" + ": " + data.results[i].text + '</p>'
 
@@ -121,11 +113,23 @@ $(document).ready(function(){
     app.addMessage($('input.sendInput').val());
   });
 
-  $('.sendButton').on('click', function(event){
+  $('#send').on('click', function(event){
     event.preventDefault();
-    app.addMessage($('input.sendInput').val());
+    app.addMessage($('input.message').val());
   });
 
+  app.init = function(){
+    //maybe call fetch, should initialize the data
+    //setInterval(app.fetch, 1000);
+    // app.clearMessages();
+    app.fetch();
+    // setInterval(function(){
+    //   var myDiv = document.getElementById('chats');
+    //   myDiv.scrollTop = myDiv.scrollHeight;
+    // },10);
+  };
+  // app.init();
+  setInterval(app.init, 1000);
 
   // $('.clearButton').on("click", function(){
   //   app.clearMessages();
